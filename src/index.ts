@@ -1,4 +1,5 @@
 import { ERROR_MSG_PLAYERS } from "./constants"
+import { logger } from "./logger"
 import {
   getRoles,
   getSessionDetailsFromUserInput,
@@ -7,12 +8,13 @@ import {
 } from "./util"
 
 const main = async () => {
+  logger.info("Starting Mob Programming Session...")
   const { totalDuration, intervalDuration, players } =
     await getSessionDetailsFromUserInput()
 
   // Validate input lengths
   if (!isValidPlayerCount(players.length)) {
-    console.error(ERROR_MSG_PLAYERS)
+    logger.error(ERROR_MSG_PLAYERS)
     process.exit(1)
   }
 

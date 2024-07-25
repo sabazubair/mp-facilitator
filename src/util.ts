@@ -7,6 +7,7 @@ import {
   DEFAULT_INTERVAL_DURATION,
   DEFAULT_PLAYERS,
 } from "./constants"
+import { logger } from "./logger"
 
 // Function to validate the number of players
 export function isValidPlayerCount(playerCount: number) {
@@ -54,10 +55,10 @@ export const getUserInput = (query: string): Promise<string> => {
 
 export const getSessionDetailsFromUserInput = async () => {
   const totalDurationInput = await getUserInput(
-    `Enter the total duration in minutes for the session (default: ${DEFAULT_TOTAL_DURATION} min): `,
+    `Session Duration (default: ${DEFAULT_TOTAL_DURATION} min): `,
   )
   const intervalDurationInput = await getUserInput(
-    `Enter the interval duration in minutes for each rotation (default: ${DEFAULT_INTERVAL_DURATION} min): `,
+    `Rotation Interval Duration (default: ${DEFAULT_INTERVAL_DURATION} min): `,
   )
   const playersInput = await getUserInput(
     `Enter player names separated by commas (default: ${DEFAULT_PLAYERS}): `,
@@ -102,7 +103,7 @@ export function rotatePlayers({
     setTimeout(
       () => {
         const rotation = createRotation(players, roles, index)
-        console.log(`[${i + 1}] ${rotation}`)
+        logger.info(`[${i + 1}] ${rotation}`)
         index = (index + 1) % players.length
 
         sendNotification(`Rotation Alert ${i + 1}`, rotation)
@@ -113,7 +114,7 @@ export function rotatePlayers({
   // Add a final setTimeout to keep the script running until the last alert is done
   setTimeout(
     () => {
-      console.log("Rotation session completed.")
+      logger.info("Rotation session completed.")
       process.exit(0) // Optionally exit the process after completion
     },
     totalDuration * 60 * 1000,
