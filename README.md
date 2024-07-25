@@ -42,6 +42,10 @@ To run the application, use the following command:
 npm start
 ```
 
+## Examples
+
+https://github.com/user-attachments/assets/d52e3596-35db-4c24-9ffd-28fe8a7b7a41
+
 ## How It Works
 
 The application performs the following steps:
