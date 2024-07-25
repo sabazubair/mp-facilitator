@@ -21,7 +21,7 @@
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-repo/mp-facilitator.git
+   git clone https://github.com/sabazubair/mp-facilitator.git
    cd mp-facilitator
    ```
 
