@@ -4,10 +4,16 @@
   "description": "Your project description",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "ts-node index.js"
   },
   "dependencies": {
-    "yargs": "^17.0.1",
-    "node-notifier": "^10.0.0"
+    "node-notifier": "^10.0.0",
+    "yargs": "^17.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.12",
+    "@types/node-notifier": "^8.0.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
   }
 }
