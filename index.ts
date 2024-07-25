@@ -1,5 +1,5 @@
-const yargs = require("yargs")
-const notifier = require("node-notifier")
+import yargs from "yargs"
+import notifier from "node-notifier"
 
 // Default values
 const DEFAULT_ROLES_4_PLAYERS = ["Driver", "Navigator", "Facilitator", "Scribe"]
@@ -12,6 +12,7 @@ const DEFAULT_INTERVAL_DURATION = 15 // Default interval duration in minutes
 
 // Parse command line arguments
 const argv = yargs
+  // @ts-expect-error usage doesn't exist in yargs
   .usage(
     "Usage: $0 --totalDuration <minutes> --intervalDuration <minutes> --players <player1,player2,player3,player4>",
   )
@@ -33,7 +34,7 @@ const argv = yargs
 
 const totalDuration = argv.totalDuration
 const intervalDuration = argv.intervalDuration
-const players = argv.players.map((player) => player.trim())
+const players = argv.players.map((player: string) => player.trim())
 
 // Validate input lengths
 if (!isValidPlayerCount(players.length)) {
@@ -48,22 +49,22 @@ const numAlerts = Math.floor(totalDuration / intervalDuration)
 rotatePlayers(players, roles, numAlerts, intervalDuration, totalDuration)
 
 // Function to validate the number of players
-function isValidPlayerCount(playerCount) {
+function isValidPlayerCount(playerCount: number) {
   return playerCount === 3 || playerCount === 4
 }
 
 // Function to get roles based on the number of players
-function getRoles(playerCount) {
+function getRoles(playerCount: number) {
   return playerCount === 4 ? DEFAULT_ROLES_4_PLAYERS : DEFAULT_ROLES_3_PLAYERS
 }
 
 // Function to rotate players and roles and display alerts
 function rotatePlayers(
-  players,
-  roles,
-  numAlerts,
-  intervalDuration,
-  totalDuration,
+  players: string[],
+  roles: string[],
+  numAlerts: number,
+  intervalDuration: number,
+  totalDuration: number,
 ) {
   let index = 0
 
@@ -91,14 +92,18 @@ function rotatePlayers(
 }
 
 // Function to create a rotation string
-function createRotation(players, roles, startIndex) {
+function createRotation(
+  players: string[],
+  roles: string[],
+  startIndex: number,
+) {
   return roles
     .map((role, j) => `${players[(startIndex + j) % players.length]} - ${role}`)
     .join(", ")
 }
 
 // Function to send desktop notification
-function sendNotification(title, message) {
+function sendNotification(title: string, message: string) {
   notifier.notify({
     title,
     message,
