@@ -2,7 +2,10 @@
 
 ## Overview
 
-`mp-facilitator` is a Node.js application designed to facilitate a mob programming session by rotating roles among players at specified intervals. The app allows for custom durations and player configurations, and it sends desktop notifications to alert players of role changes.
+`mp-facilitator` is a Node.js application designed to facilitate a mob
+programming session by rotating roles among players at specified intervals.
+The app allows for custom durations and player configurations, and it sends
+desktop notifications to alert players of role changes.
 
 ## Features
 
@@ -41,19 +44,27 @@ npm start -- --players <player1,player2,player3,player4> [--totalDuration <minut
 
 ### Options
 
-- `--players`: (Required) Comma-separated list of player names. Must specify exactly 3 or 4 players.
-- `--totalDuration` or `-t`: (Optional) Total duration of the session in minutes. Default is 120 minutes.
-- `--intervalDuration` or `-i`: (Optional) Duration of each rotation interval in minutes. Default is 15 minutes.
+- `--players`:
+  (Required) Comma-separated list of player names.
+  Must specify exactly 3 or 4 players.
+- `--totalDuration` or `-t`:
+  (Optional) Total duration of the session in minutes.
+  Default is 120 minutes.
+- `--intervalDuration` or `-i`:
+  (Optional) Duration of each rotation interval in minutes.
+  Default is 15 minutes.
 
 ### Examples
 
-1. Run a session with 4 players, a total duration of 120 minutes, and an interval duration of 15 minutes:
+1. Run a session with 4 players, a total duration of 120 minutes, and an
+   interval duration of 15 minutes:
 
    ```bash
    npm start -- --players Alice, Bob, Charlie, David
    ```
 
-2. Run a session with 3 players, a total duration of 90 minutes, and an interval duration of 20 minutes:
+2. Run a session with 3 players, a total duration of 90 minutes, and an interval
+   duration of 20 minutes:
 
    ```bash
    npm start -- --players Alice, Bob, Charlie --totalDuration 90 --intervalDuration 20
@@ -66,19 +77,26 @@ The application performs the following steps:
 1. Parses command line arguments using `yargs`.
 2. Validates the number of players (must be exactly 3 or 4).
 3. Determines the roles based on the number of players.
-4. Calculates the number of alerts based on the total duration and interval duration.
-5. Starts the rotation of players and roles, displaying alerts and sending desktop notifications at each interval.
+4. Calculates the number of alerts based on the total duration and interval
+   duration.
+5. Starts the rotation of players and roles, displaying alerts and sending
+   desktop notifications at each interval.
 
 ## File Structure
 
-- `index.js`: Main application file.
-- `package.json`: Project metadata and dependencies.
+- `index.js`:
+  Main application file.
+- `package.json`:
+  Project metadata and dependencies.
 
 ## Dependencies
 
-- `yargs`: For parsing command line arguments.
-- `node-notifier`: For sending desktop notifications.
+- `yargs`:
+  For parsing command line arguments.
+- `node-notifier`:
+  For sending desktop notifications.
 
 ## Contributing
 
-Feel free to submit issues and pull requests for new features, improvements, and bug fixes.
+Feel free to submit issues and pull requests for new features, improvements, and
+bug fixes.
