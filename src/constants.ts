@@ -18,3 +18,5 @@ export const ERROR_MSG_PLAYERS =
 export const DEFAULT_TOTAL_DURATION = 120 // Default total duration in minutes
 
 export const DEFAULT_INTERVAL_DURATION = 15 // Default interval duration in minutes
+
+export const DEFAULT_PLAYERS = ["Jon", "Mason", "Saba", "Steve"]

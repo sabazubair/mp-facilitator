@@ -5,6 +5,7 @@ import {
   DEFAULT_ROLES_4_PLAYERS,
   DEFAULT_TOTAL_DURATION,
   DEFAULT_INTERVAL_DURATION,
+  DEFAULT_PLAYERS,
 } from "./constants"
 
 // Function to validate the number of players
@@ -59,7 +60,7 @@ export const getSessionDetailsFromUserInput = async () => {
     `Enter the interval duration in minutes for each rotation (default: ${DEFAULT_INTERVAL_DURATION} min): `,
   )
   const playersInput = await getUserInput(
-    "Enter player names separated by commas: ",
+    `Enter player names separated by commas (default: ${DEFAULT_PLAYERS}): `,
   )
 
   const totalDuration = totalDurationInput
@@ -70,7 +71,9 @@ export const getSessionDetailsFromUserInput = async () => {
     ? parseInt(intervalDurationInput)
     : DEFAULT_INTERVAL_DURATION
 
-  const players = playersInput.split(",").map((player) => player.trim())
+  const players = playersInput
+    ? playersInput.split(",").map((player) => player.trim())
+    : DEFAULT_PLAYERS
 
   return {
     totalDuration,
