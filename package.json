@@ -1,0 +1,14 @@
+{
+  "name": "your-project-name",
+  "version": "1.0.0",
+  "description": "Your project description",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "rotate": "node index.js"
+  },
+  "dependencies": {
+    "yargs": "^17.0.1",
+    "node-notifier": "^10.0.0"
+  }
+}
