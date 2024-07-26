@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "tsx src/index.ts",
-    "test:notify": "tsx src/notifications.ts"
+    "test:notify": "tsx src/test-notify.ts"
   },
   "dependencies": {
     "chalk": "^5.3.0",
