@@ -6,6 +6,8 @@ import {
   DEFAULT_TOTAL_DURATION,
   DEFAULT_INTERVAL_DURATION,
   DEFAULT_PLAYERS,
+  type DefaultRoles3Players,
+  type DefaultRoles4Players,
 } from "./constants"
 import { logger } from "./logger"
 
@@ -15,19 +17,30 @@ export function isValidPlayerCount(playerCount: number) {
 }
 
 // Function to get roles based on the number of players
-export function getRoles(playerCount: number) {
-  return playerCount === 4 ? DEFAULT_ROLES_4_PLAYERS : DEFAULT_ROLES_3_PLAYERS
-}
-
-// Function to create a rotation string
-export function createRotation(
-  players: string[],
-  roles: string[],
-  startIndex: number,
-) {
-  return roles
-    .map((role, j) => `${players[(startIndex + j) % players.length]} - ${role}`)
-    .join(", ")
+export function getRoles(players: string[], rotationIndex = 0) {
+  const numPlayers = players.length
+  switch (players.length) {
+    case 3:
+      return DEFAULT_ROLES_3_PLAYERS.reduce(
+        (roles, role, i) => {
+          const startIndex =
+            rotationIndex === 0 ? 0 : (numPlayers - rotationIndex) % numPlayers
+          roles[role] = players[(startIndex + i) % numPlayers]
+          return roles
+        },
+        {} as Record<DefaultRoles3Players, string>,
+      )
+    default:
+      return DEFAULT_ROLES_4_PLAYERS.reduce(
+        (roles, role, i) => {
+          const startIndex =
+            rotationIndex === 0 ? 0 : (numPlayers - rotationIndex) % numPlayers
+          roles[role] = players[(startIndex + i) % numPlayers]
+          return roles
+        },
+        {} as Record<DefaultRoles4Players, string>,
+      )
+  }
 }
 
 // Function to send desktop notification
@@ -84,29 +97,19 @@ export const getSessionDetailsFromUserInput = async () => {
 }
 
 // Function to rotate players and roles and display alerts
-export function rotatePlayers({
-  players,
-  roles,
-  numAlerts,
-  intervalDuration,
-  totalDuration,
-}: {
-  players: string[]
-  roles: string[]
-  numAlerts: number
-  intervalDuration: number
-  totalDuration: number
-}) {
-  let index = 0
+export function rotatePlayers(
+  players: string[],
+  intervalDuration: number,
+  totalDuration: number,
+) {
+  const numAlerts = Math.floor(totalDuration / intervalDuration)
 
   for (let i = 0; i < numAlerts; i++) {
     setTimeout(
       () => {
-        const rotation = createRotation(players, roles, index)
-        logger.info(`[${i + 1}] ${rotation}`)
-        index = (index + 1) % players.length
-
-        sendNotification(`Rotation Alert ${i + 1}`, rotation)
+        const roles = getRoles(players, i)
+        console.table(roles)
+        // sendNotification(`Rotation Alert ${i + 1}`)
       },
       i * intervalDuration * 60 * 1000,
     ) // i * interval duration in milliseconds

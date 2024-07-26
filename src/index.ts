@@ -18,11 +18,8 @@ const main = async () => {
     process.exit(1)
   }
 
-  const roles = getRoles(players.length)
-  const numAlerts = Math.floor(totalDuration / intervalDuration)
-
   // Start rotation
-  rotatePlayers({ players, roles, numAlerts, intervalDuration, totalDuration })
+  rotatePlayers(players, intervalDuration, totalDuration)
 }
 
 main()
