@@ -11,17 +11,30 @@ if (!giphyApiKey) {
   throw new Error("Giphy API key not found in environment variables")
 }
 
+interface Gif {
+  url: string
+  bitly_url: string
+  embed_url: string
+}
+
+interface GiphyResponse {
+  data: Gif[]
+}
+
 // Function to get a random Giphy link based on a search term
 export async function getRandomGiphyLink(searchTerm: string): Promise<string> {
   try {
-    const response = await axios.get("https://api.giphy.com/v1/gifs/search", {
-      params: {
-        api_key: giphyApiKey,
-        q: searchTerm,
-        limit: 50, // You can adjust the limit based on your preference
-        rating: "G", // You can adjust the rating if needed
+    const response = await axios.get<GiphyResponse>(
+      "https://api.giphy.com/v1/gifs/search",
+      {
+        params: {
+          api_key: giphyApiKey,
+          q: searchTerm,
+          limit: 50, // You can adjust the limit based on your preference
+          rating: "G", // You can adjust the rating if needed
+        },
       },
-    })
+    )
     const gifs = response.data.data
     if (gifs.length === 0) {
       throw new Error("No GIFs found for the search term")
