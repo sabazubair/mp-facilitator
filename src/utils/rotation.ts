@@ -1,15 +1,13 @@
-import notifier from "node-notifier"
-import readline from "readline"
 import {
   DEFAULT_ROLES_3_PLAYERS,
   DEFAULT_ROLES_4_PLAYERS,
-  DEFAULT_TOTAL_DURATION,
-  DEFAULT_INTERVAL_DURATION,
-  DEFAULT_PLAYERS,
   type DefaultRoles3Players,
   type DefaultRoles4Players,
-} from "./constants"
+} from "../constants"
+import { getRandomGiphyLink } from "../services/giphy"
+import { sendSlackMessage } from "../services/slack"
 import { logger } from "./logger"
+import { sendNotification } from "./notification"
 
 // Function to validate the number of players
 export function isValidPlayerCount(playerCount: number) {
@@ -43,59 +41,6 @@ export function getRoles(players: string[], rotationIndex = 0) {
   }
 }
 
-// Function to send desktop notification
-export function sendNotification(title: string, message: string) {
-  notifier.notify({
-    title,
-    message,
-    sound: true,
-    wait: false,
-  })
-}
-
-export const getUserInput = (query: string): Promise<string> => {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  })
-  return new Promise((resolve) => {
-    rl.question(query, (answer) => {
-      rl.close()
-      resolve(answer)
-    })
-  })
-}
-
-export const getSessionDetailsFromUserInput = async () => {
-  const totalDurationInput = await getUserInput(
-    `Session Duration (default: ${DEFAULT_TOTAL_DURATION} min): `,
-  )
-  const intervalDurationInput = await getUserInput(
-    `Rotation Interval Duration (default: ${DEFAULT_INTERVAL_DURATION} min): `,
-  )
-  const playersInput = await getUserInput(
-    `Enter player names separated by commas (default: ${DEFAULT_PLAYERS}): `,
-  )
-
-  const totalDuration = totalDurationInput
-    ? parseInt(totalDurationInput)
-    : DEFAULT_TOTAL_DURATION
-
-  const intervalDuration = intervalDurationInput
-    ? parseInt(intervalDurationInput)
-    : DEFAULT_INTERVAL_DURATION
-
-  const players = playersInput
-    ? playersInput.split(",").map((player) => player.trim())
-    : DEFAULT_PLAYERS
-
-  return {
-    totalDuration,
-    intervalDuration,
-    players,
-  }
-}
-
 // Function to rotate players and roles and display alerts
 export function rotatePlayers(
   players: string[],
@@ -106,10 +51,22 @@ export function rotatePlayers(
 
   for (let i = 0; i < numAlerts; i++) {
     setTimeout(
-      () => {
+      async () => {
         const roles = getRoles(players, i)
         console.table(roles)
-        // sendNotification(`Rotation Alert ${i + 1}`)
+        const rotation = Object.entries(roles)
+          .map(([role, player]) => `${role} - ${player}`)
+          .join("\n")
+
+        sendNotification(`Rotation Alert ${i + 1}`, rotation)
+
+        // TODO: uncomment this line to send a Slack message with the rotation and a giphy link
+        // You'll need an API key from Giphy and Slack
+        // const giphyLink = await getRandomGiphyLink("times up!")
+        // await sendSlackMessage(
+        //   "v-hub-git",
+        //   `Rotation Alert ${i + 1}\n\n${rotation}\n\n${giphyLink}`,
+        // )
       },
       i * intervalDuration * 60 * 1000,
     ) // i * interval duration in milliseconds
