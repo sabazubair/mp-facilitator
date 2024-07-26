@@ -13,6 +13,7 @@
     "tsx": "^4.16.2"
   },
   "devDependencies": {
+    "@types/chalk": "^2.2.0",
     "@types/node": "^20.14.12",
     "@types/node-notifier": "^8.0.5",
     "prettier": "^3.3.3",

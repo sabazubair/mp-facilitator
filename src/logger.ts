@@ -1,7 +1,7 @@
 import chalk from "chalk"
 
 const error = chalk.bold.red
-const warning = chalk.hex("#FFA500") // Orange color
+const warning = chalk.hex("#FFA500")
 const info = chalk.hex("#00BFFF")
 
 export const logger = {
