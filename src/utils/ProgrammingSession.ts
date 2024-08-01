@@ -8,7 +8,7 @@ import {
 } from "../constants"
 import { logger } from "./logger"
 import { sendNotification } from "./notification"
-import { getRandomGiphyLink } from "../services/giphy"
+import { getGiphyImage } from "../services/giphy"
 import { SessionDetails } from "../types"
 
 export default class ProgrammingSession {
@@ -60,11 +60,12 @@ export default class ProgrammingSession {
 
   private async sendAssignmentsNotification(i: number) {
     const assignments = this.getAssignments()
-    const giphyLink = await getRandomGiphyLink("times up!")
+    const giphyImage = await getGiphyImage("times up!")
     sendNotification({
       title: `Rotation Alert ${i + 1}`,
       message: assignments,
-      contentImage: giphyLink,
+      contentImage: giphyImage,
+      icon: giphyImage,
     })
   }
 
