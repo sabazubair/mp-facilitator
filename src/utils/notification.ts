@@ -1,11 +1,13 @@
 import notifier from "node-notifier"
+import NotificationCenter from "node-notifier/notifiers/notificationcenter"
 
-// Function to send desktop notification
-export function sendNotification(title: string, message: string) {
+export function sendNotification(
+  notification: NotificationCenter.Notification,
+) {
+  const { wait = false, sound = true, ...rest } = notification
   notifier.notify({
-    title,
-    message,
-    sound: true,
-    wait: false,
+    ...rest,
+    wait,
+    sound,
   })
 }

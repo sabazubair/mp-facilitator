@@ -2,8 +2,9 @@ import readline from "readline"
 import {
   DEFAULT_TOTAL_DURATION,
   DEFAULT_INTERVAL_DURATION,
-  DEFAULT_PLAYERS,
+  DEFAULT_PROGRAMERS,
 } from "../constants"
+import { SessionDetails } from "../types"
 
 export const getUserInput = (query: string): Promise<string> => {
   const rl = readline.createInterface({
@@ -18,32 +19,33 @@ export const getUserInput = (query: string): Promise<string> => {
   })
 }
 
-export const getSessionDetailsFromUserInput = async () => {
-  const totalDurationInput = await getUserInput(
-    `Session Duration (default: ${DEFAULT_TOTAL_DURATION} min): `,
-  )
-  const intervalDurationInput = await getUserInput(
-    `Rotation Interval Duration (default: ${DEFAULT_INTERVAL_DURATION} min): `,
-  )
-  const playersInput = await getUserInput(
-    `Enter player names separated by commas (default: ${DEFAULT_PLAYERS}): `,
-  )
+export const getSessionDetailsFromUserInput =
+  async (): Promise<SessionDetails> => {
+    const totalDurationInput = await getUserInput(
+      `Session Duration (default: ${DEFAULT_TOTAL_DURATION} min): `,
+    )
+    const intervalDurationInput = await getUserInput(
+      `Rotation Interval Duration (default: ${DEFAULT_INTERVAL_DURATION} min): `,
+    )
+    const programmersInput = await getUserInput(
+      `Enter player names separated by commas (default: ${DEFAULT_PROGRAMERS}): `,
+    )
 
-  const totalDuration = totalDurationInput
-    ? parseInt(totalDurationInput)
-    : DEFAULT_TOTAL_DURATION
+    const totalDuration = totalDurationInput
+      ? parseInt(totalDurationInput)
+      : DEFAULT_TOTAL_DURATION
 
-  const intervalDuration = intervalDurationInput
-    ? parseInt(intervalDurationInput)
-    : DEFAULT_INTERVAL_DURATION
+    const intervalDuration = intervalDurationInput
+      ? parseInt(intervalDurationInput)
+      : DEFAULT_INTERVAL_DURATION
 
-  const players = playersInput
-    ? playersInput.split(",").map((player) => player.trim())
-    : DEFAULT_PLAYERS
+    const programmers = programmersInput
+      ? programmersInput.split(",").map((player) => player.trim())
+      : DEFAULT_PROGRAMERS
 
-  return {
-    totalDuration,
-    intervalDuration,
-    players,
+    return {
+      totalDuration,
+      intervalDuration,
+      programmers,
+    }
   }
-}
