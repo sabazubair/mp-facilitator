@@ -24,13 +24,17 @@ export default class ProgrammingSession {
       process.exit(0)
     }
     this.roles = this.getRoles(programmers)
-    this.programmers = programmers
+    this.programmers = this.randomize(programmers)
     this.intervalDuration = intervalDuration
     this.totalDuration = totalDuration
   }
 
   private isValidProgrammerCount(count: number) {
     return count === 2 || count === 3 || count === 4
+  }
+
+  private randomize(programmers: string[]) {
+    return programmers.sort(() => Math.random() - 0.5)
   }
 
   private getRoles(programmers: string[]) {
@@ -60,12 +64,12 @@ export default class ProgrammingSession {
 
   private async sendAssignmentsNotification(i: number) {
     const assignments = this.getAssignments()
-    const giphyImage = await getGiphyImage("times up!")
+    // const giphyImage = await getGiphyImage("times up!")
     sendNotification({
       title: `Rotation Alert ${i + 1}`,
       message: assignments,
-      contentImage: giphyImage,
-      icon: giphyImage,
+      // contentImage: giphyImage,
+      // icon: giphyImage,
     })
   }
 
